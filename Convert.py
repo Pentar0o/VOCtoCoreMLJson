@@ -28,11 +28,13 @@ def converter(xml_files: str, output_folder: str) -> None:
 
         for _,sg_box in enumerate(xml_content.root.iter('annotation')):
             
-            fichier.write("{\"image\":\"" + sg_box.find("filename").text + "\",")
-            fichier.write("\"annotations\":[")
-            fichier.writelines("\n")
+
 
             for _, sg_box_ in enumerate(xml_content.root.iter('object')):
+
+                fichier.write("{\"image\":\"" + sg_box.find("filename").text + "\",")
+                fichier.write("\"annotations\":[")
+                fichier.writelines("\n")
 
                 #On calcule les boudind boxes
                 width = int(sg_box_.find("bndbox").find("xmax").text) - int(sg_box_.find("bndbox").find("xmin").text)
@@ -47,10 +49,10 @@ def converter(xml_files: str, output_folder: str) -> None:
                 fichier.write("\"y\":" + str(y) + " ")
                 fichier.write("\"width\":" + str(width) + " ")
                 fichier.write("\"height\":" + str(height) + "}")
-                fichier.writelines("},\n")
+                fichier.writelines("}\n")
 
-            fichier.write("]},")
-            fichier.writelines("\n")
+                fichier.write("]},")
+                fichier.writelines("\n")
 
 
     fichier.write("]")
