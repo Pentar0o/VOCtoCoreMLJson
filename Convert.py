@@ -36,11 +36,19 @@ def converter(xml_files: str, output_folder: str) -> None:
                 fichier.write("\"annotations\":[")
                 fichier.writelines("\n")
 
+                xmax = int(sg_box_.find("bndbox").find("xmax").text)
+                xmin = int(sg_box_.find("bndbox").find("xmin").text)
+                ymax = int(sg_box_.find("bndbox").find("ymax").text)
+                ymin = int(sg_box_.find("bndbox").find("ymin").text)
+
                 #On calcule les boudind boxes
-                width = int(sg_box_.find("bndbox").find("xmax").text) - int(sg_box_.find("bndbox").find("xmin").text)
-                height = int(sg_box_.find("bndbox").find("ymax").text) - int(sg_box_.find("bndbox").find("ymin").text)
-                y = int(sg_box_.find("bndbox").find("ymin").text)
-                x = int(sg_box_.find("bndbox").find("xmin").text)
+                x = int((xmax + xmin)/2)
+                y = int((ymax + ymin)/2)
+
+                width = xmax - xmin
+                height = ymax - ymin
+
+
 
                 fichier.write("{\"label\":\"" + sg_box_.find("name").text + "\",")
                 fichier.write("\"coordinates\":{")
